@@ -11,6 +11,6 @@ cd ..
 for file in ${autogen_generated_stuff}; do
     if [ ! -L "${file}" ]; then
 	mv -vf "${file}" "${DIR_autogen}/${file}"
-	ln -snf "${DIR_autogen}/${file}" "${file}"
+	ln -snf "$PWD/${DIR_autogen}/${file}" "${file}"
     fi;
 done
