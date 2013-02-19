@@ -55,7 +55,7 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(srcdir)/libpolys-config.in $(top_srcdir)/configure AUTHORS \
 	COPYING ChangeLog NEWS ar-lib compile config.guess config.sub \
-	install-sh ltmain.sh missing
+	depcomp install-sh ltmain.sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/../m4/ax_cxx_gcc_abi_demangle.m4 \
 	$(top_srcdir)/../m4/ax_python_embed.m4 \
