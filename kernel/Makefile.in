@@ -14,16 +14,6 @@
 
 @SET_MAKE@
 
-# ACLOCAL_AMFLAGS = -I ${top_srcdir}/m4
-
-# PIPE = -pipe
-# ???
-#LD_DYN_FLAGS	= -ldl -rdynamic
-#SFLAGS		= -fpic -DPIC
-#SLDFLAGS	= -shared
-#LD_LIBC	        = -lc
-#STATIC_LDFLAGS	= -static
-
 
 VPATH = @srcdir@
 am__make_dryrun = \
@@ -636,6 +626,16 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+ACLOCAL_AMFLAGS = -I ../m4
+# TODO: use ${top_srcdir} instead of .. in the above?
+
+# PIPE = -pipe
+# ???
+#LD_DYN_FLAGS	= -ldl -rdynamic
+#SFLAGS		= -fpic -DPIC
+#SLDFLAGS	= -shared
+#LD_LIBC	        = -lc
+#STATIC_LDFLAGS	= -static
 CXXTEMPLFLAGS = -ftrapv ## -fno-implicit-templates
 @WANT_DEBUG_FALSE@LIB_G = 
 @WANT_DEBUG_TRUE@LIB_G = libkernel_g.la
