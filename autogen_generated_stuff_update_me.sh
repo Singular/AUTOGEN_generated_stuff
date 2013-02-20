@@ -11,6 +11,9 @@ cd ..
 for file in ${autogen_generated_stuff}; do
     if [ ! -L "${file}" ]; then
 	mv -vf "${file}" "${DIR_autogen}/${file}"
-	ln -snf "$PWD/${DIR_autogen}/${file}" "${file}"
     fi;
 done
+
+cd ${DIR_autogen}
+
+. ./autogen_generated_stuff_create_links.sh
