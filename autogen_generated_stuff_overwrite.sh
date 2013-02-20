@@ -2,7 +2,7 @@
 
 [ -d ../libpolys ] || { echo "the subdirectory libpolys does not exist in the parent directory; this does not seem to be the directory Singular/AUTOGEN_generated_stuff"; exit 1;}
 
-. autogen_generated_stuff_data
+. ./autogen_generated_stuff_data
 
 cd ..
 
