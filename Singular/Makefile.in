@@ -139,7 +139,8 @@ libSingular_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_1 = libSingular_la-Minor.lo \
 	libSingular_la-MinorInterface.lo \
-	libSingular_la-MinorProcessor.lo libSingular_la-attrib.lo \
+	libSingular_la-MinorProcessor.lo \
+	links/libSingular_la-asciiLink.lo libSingular_la-attrib.lo \
 	libSingular_la-bbcone.lo libSingular_la-bbfan.lo \
 	libSingular_la-bigintm.lo libSingular_la-blackbox.lo \
 	libSingular_la-calcSVD.lo libSingular_la-cntrlc.lo \
@@ -161,8 +162,9 @@ am__objects_1 = libSingular_la-Minor.lo \
 	libSingular_la-sdb.lo links/libSingular_la-s_buff.lo \
 	links/libSingular_la-silink.lo \
 	links/libSingular_la-sing_dbm.lo libSingular_la-sing_win.lo \
-	libSingular_la-slInit_Static.lo \
-	links/libSingular_la-ssiLink.lo libSingular_la-subexpr.lo \
+	links/libSingular_la-slInit_Static.lo \
+	links/libSingular_la-ssiLink.lo \
+	links/libSingular_la-semaphore.lo libSingular_la-subexpr.lo \
 	libSingular_la-pyobject_setup.lo libSingular_la-walk.lo \
 	libSingular_la-walk_ip.lo libSingular_la-wrapper.lo \
 	libSingular_la-fereadl.lo libSingular_la-mmstd.lo \
@@ -182,7 +184,8 @@ libSingular_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 libSingular_g_la_LIBADD =
 am__objects_2 = libSingular_g_la-Minor.lo \
 	libSingular_g_la-MinorInterface.lo \
-	libSingular_g_la-MinorProcessor.lo libSingular_g_la-attrib.lo \
+	libSingular_g_la-MinorProcessor.lo \
+	links/libSingular_g_la-asciiLink.lo libSingular_g_la-attrib.lo \
 	libSingular_g_la-bbcone.lo libSingular_g_la-bbfan.lo \
 	libSingular_g_la-bigintm.lo libSingular_g_la-blackbox.lo \
 	libSingular_g_la-calcSVD.lo libSingular_g_la-cntrlc.lo \
@@ -204,12 +207,14 @@ am__objects_2 = libSingular_g_la-Minor.lo \
 	libSingular_g_la-sdb.lo links/libSingular_g_la-s_buff.lo \
 	links/libSingular_g_la-silink.lo \
 	links/libSingular_g_la-sing_dbm.lo \
-	libSingular_g_la-sing_win.lo libSingular_g_la-slInit_Static.lo \
-	links/libSingular_g_la-ssiLink.lo libSingular_g_la-subexpr.lo \
-	libSingular_g_la-pyobject_setup.lo libSingular_g_la-walk.lo \
-	libSingular_g_la-walk_ip.lo libSingular_g_la-wrapper.lo \
-	libSingular_g_la-fereadl.lo libSingular_g_la-mmstd.lo \
-	libSingular_g_la-claptmpl.lo
+	libSingular_g_la-sing_win.lo \
+	links/libSingular_g_la-slInit_Static.lo \
+	links/libSingular_g_la-ssiLink.lo \
+	links/libSingular_g_la-semaphore.lo \
+	libSingular_g_la-subexpr.lo libSingular_g_la-pyobject_setup.lo \
+	libSingular_g_la-walk.lo libSingular_g_la-walk_ip.lo \
+	libSingular_g_la-wrapper.lo libSingular_g_la-fereadl.lo \
+	libSingular_g_la-mmstd.lo libSingular_g_la-claptmpl.lo
 am_libSingular_g_la_OBJECTS = $(am__objects_2)
 nodist_libSingular_g_la_OBJECTS =
 libSingular_g_la_OBJECTS = $(am_libSingular_g_la_OBJECTS) \
@@ -805,6 +810,7 @@ libSingular_g_la_CPPFLAGS = ${AM_CPPFLAGS} -DHAVE_CONFIG_H -DLIBSINGULAR
 SOURCES = Minor.cc\
    MinorInterface.cc\
    MinorProcessor.cc\
+   links/asciiLink.cc\
    attrib.cc\
    bbcone.cc\
    bbfan.cc\
@@ -847,17 +853,18 @@ SOURCES = Minor.cc\
    links/silink.cc\
    links/sing_dbm.cc\
    sing_win.cc\
-   slInit_Static.cc\
+   links/slInit_Static.cc\
    links/ssiLink.cc\
+   links/semaphore.c\
    subexpr.cc\
    pyobject_setup.cc\
    walk.cc\
    walk_ip.cc\
    wrapper.cc\
-   fereadl.c mmstd.c claptmpl.cc
+   fereadl.c mmstd.c claptmpl.cc 
 
 
-#   slInit_Dynamic.cc
+#   links/slInit_Dynamic.cc
 libSingular_la_SOURCES = $(SOURCES) feOpt.inc
 libSingular_g_la_SOURCES = $(SOURCES) feOpt.inc
 SingularHEADERS = Cache.h \
@@ -901,12 +908,13 @@ SingularHEADERS = Cache.h \
    pyobject_setup.h \
    run.h \
    sdb.h \
-   silink.h \
+   links/silink.h \
    links/s_buff.h \
    links/sing_dbm.h \
    sing_win.h \
-   slInit.h \
+   links/slInit.h \
    links/ssiLink.h \
+   links/simpleipc.h \
    stype.h \
    subexpr.h \
    table.h \
@@ -999,7 +1007,9 @@ libparse_LDFLAGS = -static ${AMLDFLAGS}
 singularlibrarydir = ${datadir}/singular
 singularlibrary = $(SLIB0:%=LIB/%) $(SLIB1:%=LIB/%) $(PLIBS:%=LIB/%)
 nobase_dist_singularlibrary_DATA = LIB/tst.lib LIB/help.cnf ${singularlibrary}
-EXTRA_DIST = make_alllib.sh LIB/all.lib.tmpl singular-libs LIB/help.cnf
+EXTRA_DIST = make_alllib.sh LIB/all.lib.tmpl singular-libs \
+             LIB/help.cnf links/slInit_Dynamic.cc
+
 
 # ${nobase_dist_singularlibrary_DATA}
 singularalllibrarydir = ${datadir}/singular/LIB
@@ -1166,6 +1176,8 @@ links/$(am__dirstamp):
 links/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) links/$(DEPDIR)
 	@: > links/$(DEPDIR)/$(am__dirstamp)
+links/libSingular_la-asciiLink.lo: links/$(am__dirstamp) \
+	links/$(DEPDIR)/$(am__dirstamp)
 links/libSingular_la-ndbm.lo: links/$(am__dirstamp) \
 	links/$(DEPDIR)/$(am__dirstamp)
 links/libSingular_la-pipeLink.lo: links/$(am__dirstamp) \
@@ -1176,10 +1188,16 @@ links/libSingular_la-silink.lo: links/$(am__dirstamp) \
 	links/$(DEPDIR)/$(am__dirstamp)
 links/libSingular_la-sing_dbm.lo: links/$(am__dirstamp) \
 	links/$(DEPDIR)/$(am__dirstamp)
+links/libSingular_la-slInit_Static.lo: links/$(am__dirstamp) \
+	links/$(DEPDIR)/$(am__dirstamp)
 links/libSingular_la-ssiLink.lo: links/$(am__dirstamp) \
+	links/$(DEPDIR)/$(am__dirstamp)
+links/libSingular_la-semaphore.lo: links/$(am__dirstamp) \
 	links/$(DEPDIR)/$(am__dirstamp)
 libSingular.la: $(libSingular_la_OBJECTS) $(libSingular_la_DEPENDENCIES) $(EXTRA_libSingular_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(libSingular_la_LINK) -rpath $(libSingulardir) $(libSingular_la_OBJECTS) $(libSingular_la_LIBADD) $(LIBS)
+links/libSingular_g_la-asciiLink.lo: links/$(am__dirstamp) \
+	links/$(DEPDIR)/$(am__dirstamp)
 links/libSingular_g_la-ndbm.lo: links/$(am__dirstamp) \
 	links/$(DEPDIR)/$(am__dirstamp)
 links/libSingular_g_la-pipeLink.lo: links/$(am__dirstamp) \
@@ -1190,7 +1208,11 @@ links/libSingular_g_la-silink.lo: links/$(am__dirstamp) \
 	links/$(DEPDIR)/$(am__dirstamp)
 links/libSingular_g_la-sing_dbm.lo: links/$(am__dirstamp) \
 	links/$(DEPDIR)/$(am__dirstamp)
+links/libSingular_g_la-slInit_Static.lo: links/$(am__dirstamp) \
+	links/$(DEPDIR)/$(am__dirstamp)
 links/libSingular_g_la-ssiLink.lo: links/$(am__dirstamp) \
+	links/$(DEPDIR)/$(am__dirstamp)
+links/libSingular_g_la-semaphore.lo: links/$(am__dirstamp) \
 	links/$(DEPDIR)/$(am__dirstamp)
 libSingular_g.la: $(libSingular_g_la_OBJECTS) $(libSingular_g_la_DEPENDENCIES) $(EXTRA_libSingular_g_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(libSingular_g_la_LINK) $(am_libSingular_g_la_rpath) $(libSingular_g_la_OBJECTS) $(libSingular_g_la_LIBADD) $(LIBS)
@@ -1383,7 +1405,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_g_la-scanner.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_g_la-sdb.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_g_la-sing_win.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_g_la-slInit_Static.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_g_la-subexpr.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_g_la-walk.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_g_la-walk_ip.Plo@am__quote@
@@ -1432,7 +1453,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_la-scanner.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_la-sdb.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_la-sing_win.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_la-slInit_Static.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_la-subexpr.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_la-walk.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSingular_la-walk_ip.Plo@am__quote@
@@ -1445,17 +1465,23 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_d_r-test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_s_g-test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_s_r-test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_g_la-asciiLink.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_g_la-ndbm.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_g_la-pipeLink.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_g_la-s_buff.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_g_la-semaphore.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_g_la-silink.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_g_la-sing_dbm.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_g_la-slInit_Static.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_g_la-ssiLink.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_la-asciiLink.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_la-ndbm.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_la-pipeLink.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_la-s_buff.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_la-semaphore.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_la-silink.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_la-sing_dbm.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_la-slInit_Static.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@links/$(DEPDIR)/libSingular_la-ssiLink.Plo@am__quote@
 
 .c.o:
@@ -1482,6 +1508,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
+links/libSingular_la-semaphore.lo: links/semaphore.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CFLAGS) $(CFLAGS) -MT links/libSingular_la-semaphore.lo -MD -MP -MF links/$(DEPDIR)/libSingular_la-semaphore.Tpo -c -o links/libSingular_la-semaphore.lo `test -f 'links/semaphore.c' || echo '$(srcdir)/'`links/semaphore.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) links/$(DEPDIR)/libSingular_la-semaphore.Tpo links/$(DEPDIR)/libSingular_la-semaphore.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='links/semaphore.c' object='links/libSingular_la-semaphore.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CFLAGS) $(CFLAGS) -c -o links/libSingular_la-semaphore.lo `test -f 'links/semaphore.c' || echo '$(srcdir)/'`links/semaphore.c
+
 libSingular_la-fereadl.lo: fereadl.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CFLAGS) $(CFLAGS) -MT libSingular_la-fereadl.lo -MD -MP -MF $(DEPDIR)/libSingular_la-fereadl.Tpo -c -o libSingular_la-fereadl.lo `test -f 'fereadl.c' || echo '$(srcdir)/'`fereadl.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libSingular_la-fereadl.Tpo $(DEPDIR)/libSingular_la-fereadl.Plo
@@ -1495,6 +1528,13 @@ libSingular_la-mmstd.lo: mmstd.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='mmstd.c' object='libSingular_la-mmstd.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CFLAGS) $(CFLAGS) -c -o libSingular_la-mmstd.lo `test -f 'mmstd.c' || echo '$(srcdir)/'`mmstd.c
+
+links/libSingular_g_la-semaphore.lo: links/semaphore.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CFLAGS) $(CFLAGS) -MT links/libSingular_g_la-semaphore.lo -MD -MP -MF links/$(DEPDIR)/libSingular_g_la-semaphore.Tpo -c -o links/libSingular_g_la-semaphore.lo `test -f 'links/semaphore.c' || echo '$(srcdir)/'`links/semaphore.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) links/$(DEPDIR)/libSingular_g_la-semaphore.Tpo links/$(DEPDIR)/libSingular_g_la-semaphore.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='links/semaphore.c' object='links/libSingular_g_la-semaphore.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CFLAGS) $(CFLAGS) -c -o links/libSingular_g_la-semaphore.lo `test -f 'links/semaphore.c' || echo '$(srcdir)/'`links/semaphore.c
 
 libSingular_g_la-fereadl.lo: fereadl.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CFLAGS) $(CFLAGS) -MT libSingular_g_la-fereadl.lo -MD -MP -MF $(DEPDIR)/libSingular_g_la-fereadl.Tpo -c -o libSingular_g_la-fereadl.lo `test -f 'fereadl.c' || echo '$(srcdir)/'`fereadl.c
@@ -1652,6 +1692,13 @@ libSingular_la-MinorProcessor.lo: MinorProcessor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MinorProcessor.cc' object='libSingular_la-MinorProcessor.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -c -o libSingular_la-MinorProcessor.lo `test -f 'MinorProcessor.cc' || echo '$(srcdir)/'`MinorProcessor.cc
+
+links/libSingular_la-asciiLink.lo: links/asciiLink.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -MT links/libSingular_la-asciiLink.lo -MD -MP -MF links/$(DEPDIR)/libSingular_la-asciiLink.Tpo -c -o links/libSingular_la-asciiLink.lo `test -f 'links/asciiLink.cc' || echo '$(srcdir)/'`links/asciiLink.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) links/$(DEPDIR)/libSingular_la-asciiLink.Tpo links/$(DEPDIR)/libSingular_la-asciiLink.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='links/asciiLink.cc' object='links/libSingular_la-asciiLink.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -c -o links/libSingular_la-asciiLink.lo `test -f 'links/asciiLink.cc' || echo '$(srcdir)/'`links/asciiLink.cc
 
 libSingular_la-attrib.lo: attrib.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -MT libSingular_la-attrib.lo -MD -MP -MF $(DEPDIR)/libSingular_la-attrib.Tpo -c -o libSingular_la-attrib.lo `test -f 'attrib.cc' || echo '$(srcdir)/'`attrib.cc
@@ -1947,12 +1994,12 @@ libSingular_la-sing_win.lo: sing_win.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -c -o libSingular_la-sing_win.lo `test -f 'sing_win.cc' || echo '$(srcdir)/'`sing_win.cc
 
-libSingular_la-slInit_Static.lo: slInit_Static.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -MT libSingular_la-slInit_Static.lo -MD -MP -MF $(DEPDIR)/libSingular_la-slInit_Static.Tpo -c -o libSingular_la-slInit_Static.lo `test -f 'slInit_Static.cc' || echo '$(srcdir)/'`slInit_Static.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libSingular_la-slInit_Static.Tpo $(DEPDIR)/libSingular_la-slInit_Static.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='slInit_Static.cc' object='libSingular_la-slInit_Static.lo' libtool=yes @AMDEPBACKSLASH@
+links/libSingular_la-slInit_Static.lo: links/slInit_Static.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -MT links/libSingular_la-slInit_Static.lo -MD -MP -MF links/$(DEPDIR)/libSingular_la-slInit_Static.Tpo -c -o links/libSingular_la-slInit_Static.lo `test -f 'links/slInit_Static.cc' || echo '$(srcdir)/'`links/slInit_Static.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) links/$(DEPDIR)/libSingular_la-slInit_Static.Tpo links/$(DEPDIR)/libSingular_la-slInit_Static.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='links/slInit_Static.cc' object='links/libSingular_la-slInit_Static.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -c -o libSingular_la-slInit_Static.lo `test -f 'slInit_Static.cc' || echo '$(srcdir)/'`slInit_Static.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -c -o links/libSingular_la-slInit_Static.lo `test -f 'links/slInit_Static.cc' || echo '$(srcdir)/'`links/slInit_Static.cc
 
 links/libSingular_la-ssiLink.lo: links/ssiLink.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_la_CXXFLAGS) $(CXXFLAGS) -MT links/libSingular_la-ssiLink.lo -MD -MP -MF links/$(DEPDIR)/libSingular_la-ssiLink.Tpo -c -o links/libSingular_la-ssiLink.lo `test -f 'links/ssiLink.cc' || echo '$(srcdir)/'`links/ssiLink.cc
@@ -2023,6 +2070,13 @@ libSingular_g_la-MinorProcessor.lo: MinorProcessor.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MinorProcessor.cc' object='libSingular_g_la-MinorProcessor.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -c -o libSingular_g_la-MinorProcessor.lo `test -f 'MinorProcessor.cc' || echo '$(srcdir)/'`MinorProcessor.cc
+
+links/libSingular_g_la-asciiLink.lo: links/asciiLink.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -MT links/libSingular_g_la-asciiLink.lo -MD -MP -MF links/$(DEPDIR)/libSingular_g_la-asciiLink.Tpo -c -o links/libSingular_g_la-asciiLink.lo `test -f 'links/asciiLink.cc' || echo '$(srcdir)/'`links/asciiLink.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) links/$(DEPDIR)/libSingular_g_la-asciiLink.Tpo links/$(DEPDIR)/libSingular_g_la-asciiLink.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='links/asciiLink.cc' object='links/libSingular_g_la-asciiLink.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -c -o links/libSingular_g_la-asciiLink.lo `test -f 'links/asciiLink.cc' || echo '$(srcdir)/'`links/asciiLink.cc
 
 libSingular_g_la-attrib.lo: attrib.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -MT libSingular_g_la-attrib.lo -MD -MP -MF $(DEPDIR)/libSingular_g_la-attrib.Tpo -c -o libSingular_g_la-attrib.lo `test -f 'attrib.cc' || echo '$(srcdir)/'`attrib.cc
@@ -2318,12 +2372,12 @@ libSingular_g_la-sing_win.lo: sing_win.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -c -o libSingular_g_la-sing_win.lo `test -f 'sing_win.cc' || echo '$(srcdir)/'`sing_win.cc
 
-libSingular_g_la-slInit_Static.lo: slInit_Static.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -MT libSingular_g_la-slInit_Static.lo -MD -MP -MF $(DEPDIR)/libSingular_g_la-slInit_Static.Tpo -c -o libSingular_g_la-slInit_Static.lo `test -f 'slInit_Static.cc' || echo '$(srcdir)/'`slInit_Static.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libSingular_g_la-slInit_Static.Tpo $(DEPDIR)/libSingular_g_la-slInit_Static.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='slInit_Static.cc' object='libSingular_g_la-slInit_Static.lo' libtool=yes @AMDEPBACKSLASH@
+links/libSingular_g_la-slInit_Static.lo: links/slInit_Static.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -MT links/libSingular_g_la-slInit_Static.lo -MD -MP -MF links/$(DEPDIR)/libSingular_g_la-slInit_Static.Tpo -c -o links/libSingular_g_la-slInit_Static.lo `test -f 'links/slInit_Static.cc' || echo '$(srcdir)/'`links/slInit_Static.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) links/$(DEPDIR)/libSingular_g_la-slInit_Static.Tpo links/$(DEPDIR)/libSingular_g_la-slInit_Static.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='links/slInit_Static.cc' object='links/libSingular_g_la-slInit_Static.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -c -o libSingular_g_la-slInit_Static.lo `test -f 'slInit_Static.cc' || echo '$(srcdir)/'`slInit_Static.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -c -o links/libSingular_g_la-slInit_Static.lo `test -f 'links/slInit_Static.cc' || echo '$(srcdir)/'`links/slInit_Static.cc
 
 links/libSingular_g_la-ssiLink.lo: links/ssiLink.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libSingular_g_la_CPPFLAGS) $(CPPFLAGS) $(libSingular_g_la_CXXFLAGS) $(CXXFLAGS) -MT links/libSingular_g_la-ssiLink.lo -MD -MP -MF links/$(DEPDIR)/libSingular_g_la-ssiLink.Tpo -c -o links/libSingular_g_la-ssiLink.lo `test -f 'links/ssiLink.cc' || echo '$(srcdir)/'`links/ssiLink.cc
